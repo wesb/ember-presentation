@@ -60,6 +60,10 @@ body {
   font-family: Monaco;
 }
 
+.step em {
+  font-style: italic;
+}
+
 .step.hero {
   text-align: center;
   font-size: 38px;

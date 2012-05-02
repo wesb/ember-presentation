@@ -98,6 +98,114 @@ MyApp.country.get('presidentName');
 // "Barack Obama"</code></pre>
     </div>
 
+    <div id="views" class="step hero" data-x="-1000" data-y="-500">
+      <h1>Ember Views</h1>
+      <p>Ember uses Handlebars, a semantic templating library.</p>
+    </div>
+
+    <div id="templates" class="step" data-x="0" data-y="-500">
+      <h1>Templates</h1>
+      <p>To immediately insert a template into your document, place it inside a <code>&lt;script&gt;</code> tag within your <code>&lt;body&gt;</code> tag:</p>
+      <pre><code>&lt;script type="text/x-handlebars"&gt;
+  Hello, <b>{{MyApp.name}}</b>
+&lt;/script&gt;</code></pre>
+      <p>To make a template available to be used later, give the <code>&lt;script&gt;</code> tag a <code>data-template-name</code> attribute and place it in the <code>&lt;head&gt;</code> tag:
+      <pre><code>&lt;script type="text/x-handlebars" data-template-name="say-hello"&gt;
+  Hello, <b>{{MyApp.name}}</b>
+&lt;/script&gt;</code></pre>
+      <p>Templates automatically update their content: When <code>MyApp.name</code> changes, it will automatically update in the view.</p>
+    </div>
+
+    <div id="ember-view" class="step" data-x="1000" data-y="-500">
+      <h1>Ember.View</h1>
+      <p>You can use Ember.View to render a Handlebars template and insert it into the DOM.</p>
+      <pre><code>&lt;script type="text/x-handlebars" data-template-name="say-hello"&gt;
+  Hello, <b>{{MyApp.name}}</b>
+&lt;/script&gt;</code></pre>
+      <pre><code>var view = Ember.View.create({
+  templateName: 'say-hello',
+  name: "Bob"
+});
+
+view.appendTo('#container');</code></pre>
+      <p>To remove a view from the document, call remove:</p>
+      <pre><code>view.remove();</code></pre>
+    </div>
+
+    <div id="metamorph" class="step" data-x="2000" data-y="-500">
+      <h1>Under the hood with Metamorph</h1>
+      <p>In order to know which part of your HTML to update when an underlying property changes, Handlebars will insert marker elements with a unique ID. If you look at your application while it's running, you might notice these extra elements:</p>
+      <pre><code>Hello,
+&lt;script id="metamorph-0-start" type="text/x-placeholder"&gt;&lt;/script&gt;
+Bob
+&lt;script id="metamorph-0-end" type="text/x-placeholder"&gt;&lt;/script&gt;</code></pre>
+      <p>So, something like this would be a <em>bad idea:</em></p>
+      <pre><code>&lt;img src="{{MyApp.logoUrl}}" alt="Logo"&gt;</code></pre>
+    </div>
+
+    <div id="bindattr" class="step" data-x="3000" data-y="-500">
+      <h1>Binding Element Attributes</h1>
+      <p>Use <code>{{bindAttr}}</code> to bind tag attributes to their data.</p>
+      <pre><code>MyApp.LogoView = Ember.View.extend({
+  logoUrl: 'http://www.mycorp.com/images/logo.png'
+});</code></pre>
+      <pre><code>&lt;div id="logo"&gt;
+  &lt;img {{bindAttr src="logoUrl"}} alt="Logo"&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <div id="bind-class-names" class="step" data-x="4000" data-y="-500">
+      <h1>Binding Class Names</h1>
+      <p>The <code>class</code> attribute can be bound like any other attribute, but it also has some additional special behavior. The default behavior works like you'd expect:</p>
+      <pre><code>App.AlertView = Ember.View.extend({
+  priority: "p4",
+  isUrgent: true
+});</code></pre>
+      <pre><code>&lt;div {{bindAttr class="priority"}}&gt;Warning!&lt;/div&gt;</code></pre>
+      <p>Would render:</p>
+      <pre><code>&lt;div class="p4"&gt;Warning!&lt;/div&gt;</code></pre>
+      <p>If the value to which you bind is a Boolean, however, the dasherized version of that property will be applied as a class:</p>
+      <pre><code>&lt;div {{bindAttr class="isUrgent"}}&gt;Warning!&lt;/div&gt;</code></pre>
+      <p>Outputs:</p>
+      <pre><code>&lt;div class="is-urgent"&gt;Warning!&lt;/div&gt;</code></pre>
+    </div>
+
+    <div id="action" class="step" data-x="5000" data-y="-500">
+      <h1>Handling Events</h1>
+      <p>Use the <code>{{action}}</code> helper to attach a handler in your view class to an event triggered on an element.</p>
+      <pre><code>&lt;a href="#" {{action "edit" on="click"}}&gt;Edit&lt;/a&gt;</code></pre>
+      <p>Because the default event is <code>click</code>, this could be written more concisely as:</p>
+      <pre><code>&lt;a href="#" {{action "edit"}}&gt;Edit&lt;/a&gt;</code></pre>
+      <p>This calls that function on the view:<p>
+      <pre><code>App.ListingView = Ember.View.extend({
+  templateName: 'listing',
+
+  edit: function(event) {
+    event.view.set('isEditing', true);
+  }
+});</code></pre>
+    </div>
+
+    <div id="view-hierarchy" class="step" data-x="6000" data-y="-500">
+      <h1>Building a View Hierarchy</h1>
+      <p>To add a child view to a parent, use the <code>{{view}}</code> helper, which takes a path to a view class.</p>
+      <pre><code>MyApp.UserView = Ember.View.extend({
+  templateName: 'user',
+  firstName: "Albert",
+  lastName: "Hofmann"
+});
+MyApp.InfoView = Ember.View.extend({
+  templateName: 'info',
+  posts: 25,
+  hobbies: "Riding bicycles"
+});</code></pre>
+      <pre><code>User: {{firstName}} {{lastName}}
+{{view MyApp.InfoView}}</code></pre>
+      <pre><code>&lt;b&gt;Posts:&lt;/b&gt; {{posts}}
+&lt;br&gt;
+&lt;b&gt;Hobbies:&lt;/b&gt; {{hobbies}}</code></pre>
+    </div>
+
   </div>
 
   <script src="js/impress.js"></script>
