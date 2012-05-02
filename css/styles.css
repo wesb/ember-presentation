@@ -33,7 +33,7 @@ body {
 
 .step h1 {
   font-weight: bold;
-  font-size: 72px;
+  font-size: 52px;
   margin-bottom: 10px;
 }
 
@@ -47,6 +47,17 @@ body {
 
 .step pre {
   margin: 10px 0;
+  font-family: Monaco;
+}
+
+.step code .highlight {
+  background-color: #ffc;
+  display: inline-block;
+}
+
+.step p code {
+  background-color: #F8F8FF;
+  font-family: Monaco;
 }
 
 .step.hero {
@@ -55,6 +66,7 @@ body {
 }
 
 .step.hero h1 {
+  font-size: 72px;
   margin-bottom: 50px;
 }
 

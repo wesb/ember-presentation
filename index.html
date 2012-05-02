@@ -17,7 +17,71 @@
       <p>Ember is a JavaScript framework for creating ambitious web applications that eliminates boilerplate and provides a standard application architecture.</p>
     </div>
 
-    <div id="bindings" class="step" data-x="0" data-y="-1500">
+    <div id="namespace" class="step" data-x="0" data-y="-1500">
+      <h1>Application Namespace</h1>
+      <p>Every Ember app should have an instance of Ember.Application. This object will serve as the globally-accessible namespace for all of the other classes and instances in your app.</p>
+      <pre><code class="javascript">MyApp = Ember.Application.create();</code></pre>
+    </div>
+
+    <div id="object-model" class="step" data-x="1000" data-y="-1500">
+      <h1>Ember's Object Model</h1>
+      <p>Ember enhances the simple JavaScript object model to support bindings and observers, as well as to support a more powerful mixin-based approach to code sharing.</p>
+      <pre><code class="javascript">MyApp.Person = Ember.Object.extend({
+  firstName: null,
+  lastName: null,
+});
+
+var tom = MyApp.Person.create({
+  firstName: "Tom",
+  lastName: "Dale"
+});
+
+tom.get('firstName') // "Tom"</code></pre>
+    </div>
+
+    <div id="computed-properties" class="step" data-x="2000" data-y="-1500">
+      <h1>Computed Properties</h1>
+      <p>Computed properties allow you to treat a function like a property.</p>
+      <pre><code>MyApp.Person = Ember.Object.extend({
+  firstName: null,
+  lastName: null,
+
+<span class="highlight">  fullName: function() {
+   return this.get('firstName') + ' ' + this.get('lastName');
+  }.property('firstName', 'lastName')</span>
+});
+
+var tom = MyApp.Person.create({
+  firstName: "Tom",
+  lastName: "Dale"
+});
+
+tom.get('fullName'); // "Tom Dale"</code></pre>
+    </div>
+
+
+    <div id="observers" class="step" data-x="3000" data-y="-1500">
+      <h1>Observers</h1>
+      <p>Ember supports observing any property, including computed properties.</p>
+      <pre><code>MyApp.Person = Ember.Object.extend({
+  firstName: null,
+  lastName: null,
+
+  fullName: function() {
+   return this.get('firstName') + ' ' + this.get('lastName');
+  }.property('firstName', 'lastName'),
+
+<span class="highlight">  fullNameChanged: function() {
+    // deal with the change
+  }.observes('fullName')</span>
+});
+
+var person = MyApp.Person.create({firstName: "Tom"});
+
+person.set('firstName', "Yahuda"); // observer will fire</code></pre>
+    </div>
+
+     <div id="bindings" class="step" data-x="4000" data-y="-1500">
       <h1>Bindings</h1>
       <p>Use bindings to keep properties between two different objects in sync.</p>
       <pre><code>MyApp.president = Ember.Object.create({
@@ -32,30 +96,6 @@ MyApp.country = Ember.Object.create({
 
 MyApp.country.get('presidentName');
 // "Barack Obama"</code></pre>
-    </div>
-
-    <div id="computed-properties" class="step" data-x="1000" data-y="-1500">
-      <h1>Computed Properties</h1>
-      <p>Computed properties allow you to treat a function like a property.</p>
-      <pre><code>MyApp.president = Ember.Object.create({
-  firstName: "Barack",
-  lastName: "Obama",
-
-  fullName: function() {
-    return this.get('firstName') + ' ' + this.get('lastName');
-  }.property('firstName', 'lastName')
-});
-
-MyApp.president.get('fullName');
-// "Barack Obama"</code></pre>
-    </div>
-
-    <div id="auto-updating-templates" class="step" data-x="2000" data-y="-1500">
-      <h1>Auto-updating Templates</h1>
-      <p>Ember uses Handlebars, a semantic templating library.</p>
-      <pre><code>&lt;script type="text/x-handlebars"&gt;
-  The President of the United States is {{MyApp.president.fullName}}.
-&lt;/script&gt;</code></pre>
     </div>
 
   </div>
