@@ -17,6 +17,47 @@
       <p>Ember is a JavaScript framework for creating ambitious web applications that eliminates boilerplate and provides a standard application architecture.</p>
     </div>
 
+    <div id="bindings" class="step" data-x="0" data-y="-1500">
+      <h1>Bindings</h1>
+      <p>Use bindings to keep properties between two different objects in sync.</p>
+      <pre><code>MyApp.president = Ember.Object.create({
+  name: "Barack Obama"
+});
+
+MyApp.country = Ember.Object.create({
+  // Ending a property with 'Binding' tells Ember to
+  // create a binding to the presidentName property.
+  presidentNameBinding: 'MyApp.president.name'
+});
+
+MyApp.country.get('presidentName');
+// "Barack Obama"</code></pre>
+    </div>
+
+    <div id="computed-properties" class="step" data-x="1000" data-y="-1500">
+      <h1>Computed Properties</h1>
+      <p>Computed properties allow you to treat a function like a property.</p>
+      <pre><code>MyApp.president = Ember.Object.create({
+  firstName: "Barack",
+  lastName: "Obama",
+
+  fullName: function() {
+    return this.get('firstName') + ' ' + this.get('lastName');
+  }.property('firstName', 'lastName')
+});
+
+MyApp.president.get('fullName');
+// "Barack Obama"</code></pre>
+    </div>
+
+    <div id="auto-updating-templates" class="step" data-x="2000" data-y="-1500">
+      <h1>Auto-updating Templates</h1>
+      <p>Ember uses Handlebars, a semantic templating library.</p>
+      <pre><code>&lt;script type="text/x-handlebars"&gt;
+  The President of the United States is {{MyApp.president.fullName}}.
+&lt;/script&gt;</code></pre>
+    </div>
+
   </div>
 
   <script src="js/impress.js"></script>

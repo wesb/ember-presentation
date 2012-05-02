@@ -27,7 +27,7 @@ body {
   position: relative;
   width: 900px;
   padding: 40px;
-  font-size: 38px;
+  font-size: 22px;
   line-height: 1.5;
 }
 
@@ -45,8 +45,13 @@ body {
   margin: 10px 0 10px 80px;
 }
 
+.step pre {
+  margin: 10px 0;
+}
+
 .step.hero {
   text-align: center;
+  font-size: 38px;
 }
 
 .step.hero h1 {
