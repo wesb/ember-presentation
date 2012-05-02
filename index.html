@@ -206,6 +206,85 @@ MyApp.InfoView = Ember.View.extend({
 &lt;b&gt;Hobbies:&lt;/b&gt; {{hobbies}}</code></pre>
     </div>
 
+    <div id="controllers" class="step hero" data-x="-1000" data-y="500">
+      <h1>Controllers</h1>
+      <p>So far in our examples, we have been setting static values directly on the views. But to best implement an MVC architecture, we should actually be binding the properties of our views to the controller layer.</p>
+    </div>
+
+    <div id="controller-example" class="step" data-x="0" data-y="500">
+      <h1>Controller Example</h1>
+      <pre><code>MyApp.userController = Ember.Object.create({
+  content: Ember.Object.create({
+    firstName: "Albert",
+    lastName: "Hofmann",
+    posts: 25,
+    hobbies: "Riding bicycles"
+  })
+});</code></pre>
+      <p>Now let's update App.UserView to bind to App.userController:</p>
+      <pre><code>MyApp.UserView = Ember.View.extend({
+  templateName: 'user',
+
+  firstNameBinding: 'MyApp.userController.content.firstName',
+  lastNameBinding: 'MyApp.userController.content.lastName'
+});</code></pre>
+    </div>
+
+    <div id="collections" class="step" data-x="1000" data-y="500">
+      <h1>Collections</h1>
+      <pre><code>MyApp.todosController = Ember.ArrayProxy.create({
+  content: [
+    Ember.Object.create({ title: 'Wake up', isDone: true }),
+    Ember.Object.create({ title: 'Go to sleep', isDone: false })
+  ]
+});</code></pre>
+      <pre><code>{{#collection contentBinding="MyApp.todosController" tagName="ul"
+itemClassBinding="content.isDone"}}
+  {{content.title}}
+{{/collection}}</code></pre>
+      <p>Would output:</p>
+      <ul>
+        <li><strike>Wake up</strike></li>
+        <li>Go to sleep</li>
+      </ul>
+    </div>
+
+    <div id="controller-computed-property" class="step" data-x="2000" data-y="500">
+      <h1>Computed Properties</h1>
+      <p>Controllers can also use computed properties</p>
+      <pre><code>MyApp.todosController = Ember.ArrayProxy.create({
+  content: [
+    Ember.Object.create({ title: 'Wake up', isDone: true }),
+    Ember.Object.create({ title: 'Go to sleep', isDone: false })
+  ],
+<span class="highlight">  remaining: function() {
+    return this.filterProperty('isDone', false).get('length');
+  }.property('@each.isDone')</span>
+});</code></pre>
+      <pre><code>MyApp.todosController.get('remaining'); // 1</code></pre>
+    </div>
+
+    <div id="modifycollections" class="step" data-x="3000" data-y="500">
+      <h1>Modifying Collections</h1>
+      <p>Add an object to a controller collection with <code>pushObject</code>:</p>
+      <pre><code>MyApp.todosController.pushObject(Ember.Object.create({
+  title: 'Another',
+  isDone: true
+}));</code></pre>
+      <p>Remove an object with <code>removeAt</code>:</p>
+      <pre><code>MyApp.todosController.removeAt(0);</code></pre>
+    </div>
+
+    <div id="thanks" class="step" data-x="2000" data-y="1500">
+      <h1>Thanks</h1>
+      <p>Find out more about ember at:</p>
+      <ul>
+        <li><a href="https://github.com/emberjs/ember.js">github.com/emberjs/ember.js</a></li>
+        <li><a href="http://emberjs.com/">emberjs.com</a></li>
+        <li><a href="http://emberjs.com/examples/">emberjs.com/examples/</a></li>
+      </ul>
+    </div>
+
   </div>
 
   <script src="js/impress.js"></script>
