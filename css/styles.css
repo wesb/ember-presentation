@@ -74,3 +74,11 @@ body {
   margin-bottom: 50px;
 }
 
+.step.hero h2.subheading {
+  color: #888;
+  font-weight: bold;
+  font-size: 32px;
+  margin-top: -25px;
+  margin-bottom: 50px;
+}
+
